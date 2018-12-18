@@ -19,6 +19,14 @@
     -->
     id, taskID, tel, status, finalStatus
   </sql>
+  
+  
+  <sql id="insertDetailsql">
+
+     LOAD DATA INFILE  'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/short.txt' INTO TABLE detail(tel)
+     set taskID='1234',status=0,finalStatus=-1 ;  
+     
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     <!--
       WARNING - @mbggenerated
@@ -88,6 +96,26 @@
       </if>
     </trim>
   </insert>
+  
+  <insert id="insertDetail">
+      LOAD DATA INFILE  'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/short.txt' INTO TABLE detail(tel)
+      set taskID='1234',status=0,finalStatus=-1 ;  
+  </insert>
+  
+  
+<insert id="insertBatch" parameterType="java.util.List">
+     insert into detail (<include refid="Base_Column_List" />)
+      values 
+    <foreach collection="list" item="item" index="index"  separator=",">
+      (
+        #{item.id,jdbcType=INTEGER}, 
+        #{item.taskid,jdbcType=VARCHAR},
+        #{item.tel,jdbcType=VARCHAR}, 
+        #{item.status,jdbcType=INTEGER},
+        #{item.finalstatus,jdbcType=INTEGER}
+      )  
+    </foreach>
+</insert>  
   <update id="updateByPrimaryKeySelective" parameterType="com.send.sms.pojo.Detail" >
     <!--
       WARNING - @mbggenerated
@@ -126,8 +154,10 @@
       select * from  detail where taskid = #{taskid}
   </select>
 
-
   <select id="selectAllTelByTaskId" parameterType="string" resultType="string">
      select tel from detail where taskid = #{taskid};  
+  </select>
+    <select id="getResultFile" parameterType="string" resultMap="BaseResultMap">
+     select taskid,tel,finalstatus from detail where taskid = #{taskid};  
   </select>
 </mapper>

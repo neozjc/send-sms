@@ -174,7 +174,7 @@ body {
 					<tr>
 						<th>批次号</th>
 						<th>电话号码</th>
-						<th>发送状态</th>
+						<!-- <th>发送状态</th> -->
 						<th>最终状态</th>
 						<!-- <th style="width: 200px;">操作</th> -->
 					</tr>
@@ -185,11 +185,16 @@ body {
 						<tr>
 							<td>${detail.taskid}</td>
 							<td>${detail.tel}</td>
-							<td>${detail.status}</td>  
+							<%-- <td>${detail.status}</td>   --%>
 							<td>
-							   ${detail.finalstatus}
+							   <c:if test="${detail.finalstatus==-1}">
+							           等待发送    
+							   </c:if>
 							   <c:if test="${detail.finalstatus==0}">
-							      (还未发送)
+							           发送失败
+							   </c:if>
+							   <c:if test="${detail.finalstatus==1}">
+							           发送成功  
 							   </c:if>
 							</td>
 						</tr>  

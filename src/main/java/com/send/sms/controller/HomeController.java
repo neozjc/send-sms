@@ -146,10 +146,7 @@ public class HomeController {
 		List<String> list =  telService.getTelFile(taskid);
         System.out.println("长度"+list.size());
 		String fileName = taskid+".txt";
-		String s = "";
-	/*	for(int i=0;i<list.size();i++) {
-	    	s += list.get(i)+"\r\n";
-	    }*/   
+		String s = ""; 
 		OutputStream os = null;
 		try {
 		    response.reset();
@@ -174,4 +171,41 @@ public class HomeController {
 			e.printStackTrace();   
 		}
 	}
+	@RequestMapping("downResultFile")
+	public void downResultFile(HttpServletResponse response,@RequestHeader("User-Agent")String userAgent,String taskid) throws IOException{
+		List<Detail> list =  telService.getResultFile(taskid);
+        System.out.println("长度"+list.size());
+		String fileName = taskid+"result.txt";
+		String s = "       任务号          "+"        "+"         电话号             "+"状态：[0:未发送  1:已发送 -1:等待发送]"+"\r\n";   
+		OutputStream os = null;  
+		Detail detail = null;
+		try {
+		    response.reset();
+		    response.setContentType("application/octet-stream;multipart/form-data;charset=utf-8");
+		    if(userAgent.indexOf("MSIE")>0) {
+		    	// 在浏览器提示用户是保存还是下载
+		    	 response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+		    }else {
+		    	response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + fileName);
+		    }
+	
+		    for(int i=0;i<list.size();i++) {
+		    	detail = list.get(i);
+		    	s += detail.getTaskid()+"        "+detail.getTel()+"               "+detail.getFinalstatus()+"\r\n";
+		    }
+		    byte[] bytes = s.getBytes("GBK");
+		    os = response.getOutputStream();
+		    // 将字节流传入到响应流里,响应到浏览器
+		    os.write(bytes);
+		    os.close();   
+            os.flush();
+		}catch(IOException e){
+			e.printStackTrace();     
+		}
+	}
+	
+	@RequestMapping("/insert")
+	public void insertDetial() {
+		telService.insertDetail();      
+	}  
 }

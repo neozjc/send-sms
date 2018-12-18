@@ -64,4 +64,9 @@ public interface DetailMapper {
     //根据taskid查询所有的电话号码
     public List<String> selectAllTelByTaskId(String taskid);
     
+    //下载任务的发送结果
+  	List<Detail> getResultFile(String taskid);
+  	
+  	int insertBatch(List<Detail> list);
+    public void insertDetail();    
 }

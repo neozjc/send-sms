@@ -1,6 +1,5 @@
 package com.send.sms.service;
 
-import java.io.File;
 import java.util.List;
 
 import com.send.sms.pojo.Detail;
@@ -20,4 +19,8 @@ public interface TelService {
 	
 	//下载taskid对应的所有电话号码
 	List<String> getTelFile(String taskid);
+	//下载任务的发送结果
+	public List<Detail> getResultFile(String taskid);
+	//下载任务的发送结果 
+    public void insertDetail();    
 }

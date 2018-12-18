@@ -1,7 +1,6 @@
 package com.send.sms.service.imp;
 
-
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,16 @@ public class TelServiceImpl implements TelService {
 		task.setUsername(username);
 		//表示未提交发送
 		detail.setStatus(0);
-		detail.setFinalstatus(0);
+		detail.setFinalstatus(-1);  
 		detail.setTaskid(task.getTaskid());
+		List<Detail> list = new ArrayList<Detail>();
 		taskMapper.insert(task);
 		for(int i = 0;i<length;i++) {
 			detail.setTel(tel[i]);
-			detailMapper.insert(detail);  
+			list.add(detail);
+			//detailMapper.insert(detail);  
 		}
+		detailMapper.insertBatch(list);        
 	}
 	@Override
 	public List<Task> showTask(String username) {
@@ -54,8 +56,16 @@ public class TelServiceImpl implements TelService {
 	}
 	@Override
 	public List<String> getTelFile(String taskid) {
-		System.out.println("taskid="+taskid);
 		List<String> teList = detailMapper.selectAllTelByTaskId(taskid);
 		return teList;
+	}
+	@Override
+	public List<Detail> getResultFile(String taskid) {
+		List<Detail> resultList = detailMapper.getResultFile(taskid);
+		return resultList; 
+	}
+	@Override
+	public void insertDetail() {
+		detailMapper.insertDetail();    
 	}
 }

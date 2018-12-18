@@ -280,7 +280,8 @@ td{
 								class="fa fa-trash"></i>&nbsp;删除</a></td> -->
 						     <td>
 						     <a href="${pageContext.request.contextPath}/getTaskDetail?taskid=${task.taskid}"><input type="text"  value="查询详情" class="btn btn-link"></a>
-						     <a href="${pageContext.request.contextPath}/downloadFile?taskid=${task.taskid}"><input type="text"  value="批次下载" class="btn btn-link"></a>  
+						     <a href="${pageContext.request.contextPath}/downloadFile?taskid=${task.taskid}"><input type="text"  value="批次下载" class="btn btn-link"></a> 
+						      <a href="${pageContext.request.contextPath}/downResultFile?taskid=${task.taskid}"><input type="text"  value="结果下载" class="btn btn-link"></a>  
 							 </td>  
 						     
 						 </c:if>
